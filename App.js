@@ -1,14 +1,18 @@
+// react and react native imports
 import React, { Component } from 'react';
-import { View, FlatList, TouchableOpacity, Text, StyleSheet, StatusBar, Image, Platform } from 'react-native';
+import { View, FlatList, TouchableOpacity, Text, StyleSheet, StatusBar, Platform } from 'react-native';
 
+// the Flic2 module
 import Flic2 from 'react-native-flic2';
 
+// icons
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPause, faPlay, faTrash, faEdit, faBatterryEmpty, faBatteryQuarter, faBatteryHalf, faBatteryThreeQuarter, faBatteryFull } from '@fortawesome/free-solid-svg-icons';
 
+// plugins to make it more fancy
 import prompt from 'react-native-prompt-android';
 import { request as requestPermission, PERMISSIONS } from 'react-native-permissions';
-
+import * as Animatable from 'react-native-animatable';
 import Toast from 'react-native-root-toast';
 
 export default class App extends Component {
@@ -201,6 +205,14 @@ export default class App extends Component {
     // do something with the click like showing a notification
     Toast.show(`Button ${eventData.button.getName()} has been pressed ${eventData.button.getPressCount()} times`);
 
+    // wobble
+    if (typeof this._logoRef !== 'undefined' && this._logoRef !== null && typeof this._logoRef.wobble === 'function') {
+
+      // wobble wobble
+      this._logoRef.wobble();
+
+    }
+
   }
 
   getBatteryIcon(batteryPercentage) {
@@ -239,7 +251,8 @@ export default class App extends Component {
       <View style={style.container}>
         <StatusBar barStyle="light-content" />
 
-        <Image style={style.logo} source={require('./images/flic-logo.png')} />
+        {/* eslint-disable-next-line */}
+        <Animatable.Image ref={ image => this._logoRef = image } style={style.logo} useNativeDriver={true} source={require('./images/flic-logo.png')} />
 
         {/* Scan button */}
         {this.state.scanning === false ?
