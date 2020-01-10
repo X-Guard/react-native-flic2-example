@@ -1,6 +1,6 @@
 // react and react native imports
 import React, { Component } from 'react';
-import { View, FlatList, TouchableOpacity, Text, StyleSheet, StatusBar, Platform } from 'react-native';
+import { View, FlatList, TouchableOpacity, Text, StyleSheet, StatusBar, Platform, Vibration } from 'react-native';
 
 // the Flic2 module
 import Flic2 from 'react-native-flic2';
@@ -49,6 +49,7 @@ export default class App extends Component {
     // listen bindings
     Flic2.addListener('didReceiveButtonClick', this.didReceiveButtonClickFunction);
     Flic2.addListener('scanResult', this.onScanResultFunction);
+
   }
 
   componentWillUnmount() {
@@ -203,6 +204,8 @@ export default class App extends Component {
 
   didReceiveButtonClick(eventData) {
 
+    console.log('Received click event', eventData);
+
     // update list
     this.getButtons();
 
@@ -217,6 +220,9 @@ export default class App extends Component {
       this._logoRef.wobble();
 
     }
+
+    // vibrate
+    Vibration.vibrate(200);
 
   }
 
