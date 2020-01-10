@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, FlatList, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { View, FlatList, TouchableOpacity, Text, StyleSheet, StatusBar, Image, Platform } from 'react-native';
 
 import Flic2 from 'react-native-flic2';
 
@@ -7,6 +7,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPause, faPlay, faTrash, faEdit, faBatterryEmpty, faBatteryQuarter, faBatteryHalf, faBatteryThreeQuarter, faBatteryFull } from '@fortawesome/free-solid-svg-icons';
 
 import prompt from 'react-native-prompt-android';
+import { request as requestPermission, PERMISSIONS } from 'react-native-permissions';
+
+import Toast from 'react-native-root-toast';
 
 export default class App extends Component {
 
@@ -64,12 +67,24 @@ export default class App extends Component {
 
   }
 
-  startScan() {
+  async startScan() {
 
+    // check os
+    if (Platform.OS === 'android') {
+
+      // on android we need the permission ACCESS_FINE_LOCATION first
+      // we are just going to assume the permission is granted after calling this
+      // in your real application, please create an actual permission check here
+      await requestPermission(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
+
+    }
+
+    // set to scanning
     this.setState({
       scanning: true,
     });
 
+    // go!
     Flic2.startScan();
 
   }
@@ -184,6 +199,7 @@ export default class App extends Component {
     this.getButtons();
 
     // do something with the click like showing a notification
+    Toast.show(`Button ${eventData.button.getName()} has been pressed ${eventData.button.getPressCount()} times`);
 
   }
 
@@ -221,6 +237,9 @@ export default class App extends Component {
 
     return (
       <View style={style.container}>
+        <StatusBar barStyle="light-content" />
+
+        <Image style={style.logo} source={require('./images/flic-logo.png')} />
 
         {/* Scan button */}
         {this.state.scanning === false ?
@@ -250,7 +269,7 @@ export default class App extends Component {
                 const button = row.item;
 
                 // eslint-disable-next-line react-native/no-inline-styles
-                return <View style={[style.listItem, { backgroundColor: button.isReady ? 'rgba(0, 255, 0, 0.25)' : 'rgba(255, 0, 0, 0.25)'}]}>
+                return <View style={[style.listItem, { borderColor: button.isReady ? '#006e1a' : '#b00000'}]}>
                   <FontAwesomeIcon style={style.icon} icon={this.getBatteryIcon(button.getBatteryLevel())} size={16} />
                   <Text style={style.pressCount}>{button.pressCount}</Text>
                   <Text style={style.listItemText}>{button.name}</Text>
@@ -278,16 +297,27 @@ export default class App extends Component {
 
 // define stylesheet
 const style = StyleSheet.create({
+
+  // container
   container: {
-    marginTop: 10,
-    padding: 20,
+    paddingTop: 20,
+    padding: 10,
+    backgroundColor: '#45454d',
+    flex: 1,
+  },
+
+  // logo
+  logo: {
+    width: 100,
+    alignSelf: 'center',
+    resizeMode: 'contain',
   },
 
   // button
   button: {
     padding: 10,
     borderRadius: 10,
-    backgroundColor: 'rgba(40, 40, 40, 1)',
+    backgroundColor: '#ff0089',
     marginTop: 15,
   },
   buttonText: {
@@ -299,7 +329,7 @@ const style = StyleSheet.create({
   // button container
   buttonContainer: {
     padding: 10,
-    backgroundColor: 'rgba(240, 240, 240, 1)',
+    backgroundColor: 'rgba(255, 255, 255, 1)',
     borderRadius: 10,
     marginTop: 20,
   },
@@ -322,13 +352,15 @@ const style = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 10,
     marginBottom: 10,
+    backgroundColor: '#f3f9ff',
+    borderWidth: 2,
   },
   listItemText: {
     flex: 1,
   },
   pressCount: {
     width: 25,
-    color: 'rgba(100, 100, 100, 1)',
+    color: 'rgba(40, 40, 40, 0.5)',
     fontSize: 10,
   },
 
@@ -340,7 +372,6 @@ const style = StyleSheet.create({
     alignItems: 'center',
     alignSelf: 'flex-end',
   },
-
   icon: {
     marginRight: 7,
   },
