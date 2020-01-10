@@ -35,6 +35,10 @@ export default class App extends Component {
     // connect to all known buttons
     Flic2.connectAllKnownButtons();
 
+    // start android service
+    // don't worry, this function is ignored on iOS
+    Flic2.startService();
+
     // get the buttons
     this.getButtons();
 
@@ -206,6 +210,7 @@ export default class App extends Component {
     Toast.show(`Button ${eventData.button.getName()} has been pressed ${eventData.button.getPressCount()} times`);
 
     // wobble
+    // we do this extensive check because when you develop the app with live reload, the _logoRef will break.
     if (typeof this._logoRef !== 'undefined' && this._logoRef !== null && typeof this._logoRef.wobble === 'function') {
 
       // wobble wobble
