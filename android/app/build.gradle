@@ -179,6 +179,9 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-prompt-android')
+    implementation project(':react-native-svg')
+    implementation project(':react-native-flic2')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:+"  // From node_modules
 

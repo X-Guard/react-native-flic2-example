@@ -34,20 +34,14 @@ target 'Flic2Example' do
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
+  pod 'react-native-flic2', :path => '../node_modules/react-native-flic2'
+
+  pod 'RNSVG', :path => '../node_modules/react-native-svg'
+
   target 'Flic2ExampleTests' do
     inherit! :search_paths
     # Pods for testing
   end
 
   use_native_modules!
-end
-
-target 'Flic2Example-tvOS' do
-  # Pods for Flic2Example-tvOS
-
-  target 'Flic2Example-tvOSTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
 end
