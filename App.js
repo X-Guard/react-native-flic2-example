@@ -7,7 +7,7 @@ import Flic2 from 'react-native-flic2';
 
 // icons
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faPause, faPlay, faTrash, faEdit, faBatterryEmpty, faBatteryQuarter, faBatteryHalf, faBatteryThreeQuarter, faBatteryFull } from '@fortawesome/free-solid-svg-icons';
+import { faPause, faPlay, faTrash, faEdit, faBatteryEmpty, faBatteryQuarter, faBatteryHalf, faBatteryThreeQuarters, faBatteryFull } from '@fortawesome/free-solid-svg-icons';
 
 // plugins to make it more fancy
 import prompt from 'react-native-prompt-android';
@@ -31,16 +31,9 @@ export default class App extends Component {
     // bindings
     this.didReceiveButtonClickFunction = this.didReceiveButtonClick.bind(this);
     this.onScanResultFunction = this.onScanResult.bind(this);
+    this.onInitializedFunction = this.onInitialized.bind(this);
 
-    // connect to all known buttons
-    Flic2.connectAllKnownButtons();
-
-    // start android service
-    // don't worry, this function is ignored on iOS
-    Flic2.startService();
-
-    // get the buttons
-    this.getButtons();
+    Flic2.addListener('managerInitialized', this.onInitializedFunction);
 
   }
 
@@ -58,6 +51,19 @@ export default class App extends Component {
     Flic2.removeListener('buttonEvent', this.handleButtonEventFunction);
     Flic2.removeListener('scanResult', this.onScanResultFunction);
 
+  }
+
+  onInitialized() {
+
+      // connect to all known buttons
+      Flic2.connectAllKnownButtons();
+
+      // start android service
+      // don't worry, this function is ignored on iOS
+      Flic2.startService();
+
+      // get the buttons
+      this.getButtons();
   }
 
   async getButtons() {
@@ -235,7 +241,7 @@ export default class App extends Component {
     } else
     if (batteryPercentage > 75) {
 
-      return faBatteryThreeQuarter;
+      return faBatteryThreeQuarters;
 
     } else
     if (batteryPercentage > 40) {
@@ -249,7 +255,7 @@ export default class App extends Component {
 
     } else {
 
-      return faBatterryEmpty;
+      return faBatteryEmpty;
 
     }
 
