@@ -295,8 +295,8 @@ export default class App extends Component {
                 // eslint-disable-next-line react-native/no-inline-styles
                 return <View style={[style.listItem, { borderColor: button.isReady ? '#006e1a' : '#b00000'}]}>
                   <FontAwesomeIcon style={style.icon} icon={this.getBatteryIcon(button.getBatteryLevel())} size={16} />
-                  <Text style={style.pressCount}>{button.pressCount}</Text>
-                  <Text style={style.listItemText}>{button.name}</Text>
+                  <Text style={style.pressCount}>{button.getPressCount()}</Text>
+                  <Text style={style.listItemText}>{button.getName()}</Text>
                   <View style={style.icons}>
                     {button.isReady === true ?
                       <TouchableOpacity onPress={this.disconnectButton.bind(this, button)}><FontAwesomeIcon icon={faPause} size={16} /></TouchableOpacity>
