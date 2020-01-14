@@ -33,7 +33,11 @@ export default class App extends Component {
     this.onScanResultFunction = this.onScanResult.bind(this);
     this.onInitializedFunction = this.onInitialized.bind(this);
 
-    Flic2.addListener('managerInitialized', this.onInitializedFunction);
+    if (Flic2.isInitialized() === true) {
+      this.onInitialized();
+    } else {
+      Flic2.addListener('managerInitialized', this.onInitializedFunction);
+    }
 
   }
 
