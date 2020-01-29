@@ -22,7 +22,7 @@ This example shows:
 2. Forgetting all connected buttons permanently (`Flic2.forgetAllButtons()`)
 3. A list of buttons the app knows including:
 	1. The ready state of the button (`Flic2Button.getIsReady()`) will color the row border red or green
-	2. The estimated battery level (`Flic2Button.getBatteryLevel()`)
+	2. Returns a boolean if the battery is ok  (`Flic2Button.getBatteryLevelIsOk()`)
 	3. Forgetting a button completely (`Flic2Button.forgetButton()`)
 	4. Getting and setting the button name (`Flic2Button.getName()` and `Flic2Button.setName()`)
 	5. Connecting and disconnecting a button connection (`Flic2Button.connect()` and `Flic2Button.disconnect()`)
