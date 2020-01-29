@@ -7,7 +7,7 @@ import Flic2 from 'react-native-flic2';
 
 // icons
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faPause, faPlay, faTrash, faEdit, faBatteryEmpty, faBatteryQuarter, faBatteryHalf, faBatteryThreeQuarters, faBatteryFull } from '@fortawesome/free-solid-svg-icons';
+import { faPause, faPlay, faTrash, faEdit, faBatteryQuarter, faBatteryFull } from '@fortawesome/free-solid-svg-icons';
 
 // plugins to make it more fancy
 import prompt from 'react-native-prompt-android';
@@ -33,15 +33,15 @@ export default class App extends Component {
     this.onScanResultFunction = this.onScanResult.bind(this);
     this.onInitializedFunction = this.onInitialized.bind(this);
 
-    if (Flic2.isInitialized() === true) {
+  }
+
+  componentDidMount() {
+
+    if (typeof Flic2.isInitialized === 'function' && Flic2.isInitialized() === true) {
       this.onInitialized();
     } else {
       Flic2.addListener('managerInitialized', this.onInitializedFunction);
     }
-
-  }
-
-  componentDidMount() {
 
     // listen bindings
     Flic2.addListener('didReceiveButtonClick', this.didReceiveButtonClickFunction);
@@ -180,36 +180,36 @@ export default class App extends Component {
 
   onScanResult(data) {
 
-    this.setState({
-      scanning: false,
-    });
+    if (data.event === 'completion') {
 
-    // check
-    if (data.error === false) {
+      this.setState({
+        scanning: false,
+      });
 
-      alert('The button has been added');
-      this.getButtons();
+      // check
+      if (data.error === false) {
 
-    } else {
-
-      if (data.result === Flic2.constants.SCAN_RESULT_ERROR_ALREADY_CONNECTED_TO_ANOTHER_DEVICE) {
-
-        alert('This button is already connected to another device');
-
-      } else
-      if (data.result === Flic2.constants.SCAN_RESULT_ERROR_NO_PUBLIC_BUTTON_DISCOVERED) {
-
-        alert('No buttons found');
+        alert('The button has been added');
+        this.getButtons();
 
       } else {
 
-        alert(`Could not connect\n\nError code: ${data.result}`);
+        if (data.result === Flic2.constants.SCAN_RESULT_ERROR_ALREADY_CONNECTED_TO_ANOTHER_DEVICE) {
 
+          alert('This button is already connected to another device');
+
+        } else
+        if (data.result === Flic2.constants.SCAN_RESULT_ERROR_NO_PUBLIC_BUTTON_DISCOVERED) {
+
+          alert('No buttons found');
+
+        } else {
+
+          alert(`Could not connect\n\nError code: ${data.result}`);
+
+        }
       }
-
-
     }
-
   }
 
   didReceiveButtonClick(eventData) {
@@ -238,29 +238,10 @@ export default class App extends Component {
 
   getBatteryIcon(batteryPercentage) {
 
-    if (batteryPercentage > 90) {
-
+    if (batteryPercentage === true) {
       return faBatteryFull;
-
-    } else
-    if (batteryPercentage > 75) {
-
-      return faBatteryThreeQuarters;
-
-    } else
-    if (batteryPercentage > 40) {
-
-      return faBatteryHalf;
-
-    } else
-    if (batteryPercentage > 15) {
-
-      return faBatteryQuarter;
-
     } else {
-
-      return faBatteryEmpty;
-
+      return faBatteryQuarter;
     }
 
   }
@@ -304,7 +285,7 @@ export default class App extends Component {
 
                 // eslint-disable-next-line react-native/no-inline-styles
                 return <View style={[style.listItem, { borderColor: button.getIsReady() ? '#006e1a' : '#b00000'}]}>
-                  <FontAwesomeIcon style={style.icon} icon={this.getBatteryIcon(button.getBatteryLevel())} size={16} />
+                  <FontAwesomeIcon style={style.icon} icon={this.getBatteryIcon(button.getBatteryLevelIsOk())} size={16} />
                   <Text style={style.pressCount}>{button.getPressCount()}</Text>
                   <Text style={style.listItemText}>{button.getName()}</Text>
                   <View style={style.icons}>
