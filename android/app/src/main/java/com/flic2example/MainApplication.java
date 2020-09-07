@@ -2,7 +2,6 @@ package com.flic2example;
 
 import android.app.Application;
 import android.content.Context;
-import android.os.Handler;
 
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
@@ -13,7 +12,6 @@ import com.facebook.soloader.SoLoader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
-import nl.xguard.flic2.Flic2;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -47,8 +45,6 @@ public class MainApplication extends Application implements ReactApplication {
   @Override
   public void onCreate() {
     super.onCreate();
-
-    Flic2.startupAndroid(getApplicationContext(), new Handler());
 
      SoLoader.init(this, /* native exopackage */ false);
 //      initializeFlipper(this, getReactNativeHost().getReactInstanceManager()); // Remove this line if you don't want Flipper enabled
