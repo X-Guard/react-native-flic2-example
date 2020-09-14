@@ -9,20 +9,23 @@
     "test": "jest",
     "lint": "eslint .",
     "dev": "npm run reverse-tcp && npm start",
-    "reverse-tcp": "adb reverse tcp:8081 tcp:8081"
+    "reverse-tcp": "adb reverse tcp:8081 tcp:8081",
+    "postinstall": "npx jetify",
+    "reset-cache": "watchman watch-del-all; npm start -- --reset-cache;",
+    "reset-cache-android": "npm run reverse-tcp; npm run reset-cache;"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.26",
     "@fortawesome/free-solid-svg-icons": "^5.12.0",
     "@fortawesome/react-native-fontawesome": "^0.2.0",
-    "react": "16.9.0",
-    "react-native": "0.61.5",
+    "react": "^16.12.0",
+    "react-native": "0.63.2",
     "react-native-animatable": "^1.3.3",
-    "react-native-flic2": "^0.3.0",
-    "react-native-permissions": "^2.0.9",
+    "react-native-flic2": "0.3.7",
+    "react-native-permissions": "2.1.5",
     "react-native-prompt-android": "^1.1.0",
     "react-native-root-toast": "^3.2.0",
-    "react-native-svg": "^10.0.0"
+    "react-native-svg": "^12.1.0"
   },
   "devDependencies": {
     "@babel/core": "7.7.7",
