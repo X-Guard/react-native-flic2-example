@@ -21,7 +21,7 @@
     "react": "^16.12.0",
     "react-native": "0.63.2",
     "react-native-animatable": "^1.3.3",
-    "react-native-flic2": "git+https://github.com/X-Guard/react-native-flic2.git#9c8f2076200e88daa5b9d39e328455e0101bba8c",
+    "react-native-flic2": "0.3.7",
     "react-native-permissions": "2.1.5",
     "react-native-prompt-android": "^1.1.0",
     "react-native-root-toast": "^3.2.0",
